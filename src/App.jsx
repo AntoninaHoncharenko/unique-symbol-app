@@ -1,21 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { findUniqueSymbol } from "./utils/findSymbol";
 
 function App() {
-  const myText = `C makes it easy for you to shoot yourself in the foot. C++ makes that harder, but when you do, it blows away your whole leg. (с) Bjarne Stroustrup
-  `;
-
+  const ref = useRef(null);
   const [text, setText] = useState("");
-
   const [uniqueSymbol, setUniqueSymbol] = useState(null);
 
   useEffect(() => {
-    setText(myText);
     const symbol = findUniqueSymbol(text);
     setUniqueSymbol(symbol);
-  }, [text, myText]);
+  }, [text]);
 
-  return <>{uniqueSymbol && <div>{uniqueSymbol}</div>}</>;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = ref.current.value;
+    setText(data);
+  };
+
+  const handleReset = () => {
+    ref.current.value = "";
+    setText("");
+    setUniqueSymbol(null);
+  };
+
+  return (
+    <>
+      <h1>Find your unique symbol</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="text">Enter a text</label>
+        <textarea id="text" ref={ref}></textarea>
+        <button type="submit">Find</button>
+        <button type="button" onClick={handleReset}>
+          Reset
+        </button>
+      </form>
+      <div>
+        <p>Unique Symbol:</p>
+        {uniqueSymbol && <span>{uniqueSymbol}</span>}
+      </div>
+    </>
+  );
 }
 
 export default App;

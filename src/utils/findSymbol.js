@@ -7,19 +7,15 @@ export const findUniqueSymbol = (text) => {
       let charCount = {};
 
       for (let char of word) {
-        let lowercaseChar = char.toLowerCase();
-
-        if (!(lowercaseChar in charCount)) {
-          charCount[lowercaseChar] = 0;
+        if (!(char in charCount)) {
+          charCount[char] = 0;
         }
-        charCount[lowercaseChar] += 1;
+        charCount[char] += 1;
       }
 
       for (let char of word) {
-        let lowercaseChar = char.toLowerCase();
-
-        if (charCount[lowercaseChar] === 1) {
-            symbols.push(lowercaseChar);
+        if (charCount[char] === 1) {
+            symbols.push(char);
           break;
         }
       }
